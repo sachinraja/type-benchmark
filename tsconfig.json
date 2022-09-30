@@ -9,7 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "typeRoots": []
   },
   "include": ["interface.ts", "type-alias.ts"],
   "exclude": ["node_modules", "dist"]
