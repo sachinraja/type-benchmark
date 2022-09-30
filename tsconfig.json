@@ -12,6 +12,6 @@
     "isolatedModules": true,
     "typeRoots": []
   },
-  "include": ["interface.ts", "type-alias.ts"],
+  "include": ["interface.ts", "type-alias.ts", "literal.ts"],
   "exclude": ["node_modules", "dist"]
 }
