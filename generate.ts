@@ -26,21 +26,25 @@ const writeTypes = async () => {
   for (let i = 0; i < COUNT; i++) {
     const outerTypes = resolvedTypes
       .map((type) => {
-        return `export type ${type.identifier}${i} = { ${type.name}: ${type.type} };`;
+        return `type ${type.identifier}${i} = { ${type.name}: ${type.type} };`;
       })
       .join("\n");
 
     const identifiers = resolvedTypes.map((type) => `${type.identifier}${i}`);
 
     const typeAliasType = identifiers.join(" & ");
-    const interfaceType = identifiers.join(", ");
+    typeAliases += `${outerTypes}\ntype Data${i} = ${typeAliasType};\n`;
 
-    typeAliases += `${outerTypes}\nexport type Data${i} = ${typeAliasType};\n`;
-    interfaces += `${outerTypes}\nexport interface Data${i} extends ${interfaceType} {}\n`;
+    const interfaceType = identifiers.join(", ");
+    interfaces += `${outerTypes}\ninterface Data${i} extends ${interfaceType} {}\n`;
   }
+
+  // so types across files don't collide
+  const footer = "export {}";
+
   await Promise.all([
-    writeFile("type-alias.ts", typeAliases),
-    writeFile("interface.ts", interfaces),
+    writeFile("type-alias.ts", `${typeAliases}${footer}`),
+    writeFile("interface.ts", `${interfaces}${footer}`),
   ]);
 };
 
